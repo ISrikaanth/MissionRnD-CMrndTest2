@@ -38,7 +38,127 @@ struct oddevennode{
 
 };
 
-int * oddeven_sll(struct oddevennode *head){
-
-	return NULL;
+int * oddeven_sll(struct oddevennode *head)
+{
+	if (head == NULL)
+		return NULL;
+	int i = 0, flag = 0, c = 0, count1 = 0, count2 = 0, *arr, d1 = 0, d2 = 0;
+	arr = (int *)malloc(3 * sizeof(int));
+	struct oddevennode *t, *oddnode, *evennode, *t1=NULL, *t2=NULL;
+	t = head;
+	oddnode = (struct oddevennode *)malloc(10 * sizeof(struct oddevennode));
+	evennode = (struct oddevennode *)malloc(10 * sizeof(struct oddevennode));
+	if ((t->data) % 2 == 0)
+		flag = 1;
+	else
+		flag = 0;
+	if (flag == 1)
+	{
+		while (t != NULL)
+		{
+			if ((t->next != NULL) && ((t->next->data) % 2 == 0))
+			{
+				evennode = t->next;
+				if (d1 == 0)
+				{
+					t1 = t->next;
+					d1++;
+				}
+				evennode = evennode->next;
+			}
+			else
+				c++;
+			if ((t->next != NULL) && (c > 1) && ((t->next->data) % 2 != 0))
+			{
+				oddnode = t->next;
+				if (d2 == 0)
+				{
+					t2 = t->next;
+					d2++;
+				}
+				oddnode = oddnode->next;
+			}
+			if (t->next == NULL)
+			{
+				if ((t->data) % 2 == 0)
+				{
+					evennode = t;
+					evennode->next = NULL;
+				}
+				else
+				{
+					oddnode = t;
+					oddnode->next = NULL;
+				}
+			}
+			t = t->next;
+		}
+	}
+	else
+	{
+		while (t != NULL)
+		{
+			if ((t->next != NULL) && ((t->next->data) % 2 != 0))
+			{
+				oddnode = t->next;
+				if (d2 == 0)
+				{
+					t2 = oddnode;
+					d2++;
+				}
+				oddnode = oddnode->next;
+			}
+			else
+				c++;
+			if ((t->next != NULL) && (c > 1) && ((t->next->data) % 2 == 0))
+			{
+				evennode = t->next;
+				if (d1 == 0)
+				{
+					t1 = evennode;
+					d1++;
+				}
+				evennode = evennode->next;
+			}
+			if (t->next == NULL)
+			{
+				if ((t->data) % 2 == 0)
+				{
+					evennode = t;
+					evennode->next = NULL;
+				}
+				else
+				{
+					oddnode = t;
+					oddnode->next = NULL;
+				}
+			}
+			t = t->next;
+		}
+	}
+	evennode = t1;
+	oddnode = t2;
+	t = head;
+	while (t != NULL)
+	{
+		if ((t->data) % 2 == 0)
+		{
+			if ((evennode->data) % 2 == 0)
+				t->random = evennode;
+			evennode = evennode->next;
+			count1++;
+		}
+		else
+		{
+			t->random = oddnode;
+			if ((oddnode->data) % 2 != 0)
+				t->random = oddnode;
+			oddnode = oddnode->next;
+			count2++;
+		}
+		t = t->next;
+	}
+	arr[0] = count2;
+	arr[1] = count1;
+	return arr;
 }
